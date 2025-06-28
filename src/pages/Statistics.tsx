@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen, Target, Clock, TrendingUp, Play, Tv, Calendar, Star } from 'lucide-react'
+import { BookOpen, Target, Clock, TrendingUp, Play, Tv, Star } from 'lucide-react'
 import Header from '../components/Header'
 import { useMediaItems } from '../hooks/useMediaItems'
 
