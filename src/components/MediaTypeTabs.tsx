@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, Play, Tv } from 'lucide-react'
 import { MediaType } from '../types/media'

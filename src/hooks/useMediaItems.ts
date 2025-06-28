@@ -59,31 +59,46 @@ export function useMediaItems() {
     if (!user) return
 
     try {
+      const insertData: any = {
+        user_id: user.id,
+        title: item.title,
+        type: item.type,
+        status: item.status,
+        cover_url: item.coverUrl,
+        genre: item.genre,
+        release_year: item.releaseYear,
+        rating: item.rating,
+        notes: item.notes,
+        date_added: new Date().toISOString(),
+        date_started: item.dateStarted?.toISOString(),
+        date_completed: item.dateCompleted?.toISOString(),
+      }
+
+      // Set creator based on type
+      if (item.type === 'book') {
+        insertData.creator = (item as any).author
+      } else if (item.type === 'movie') {
+        insertData.creator = (item as any).director
+      } else {
+        insertData.creator = (item as any).creator
+      }
+
+      // Set type-specific fields
+      if (item.type === 'book') {
+        insertData.progress = (item as any).progress
+        insertData.total_pages = (item as any).totalPages
+      } else if (item.type === 'movie') {
+        insertData.runtime = (item as any).runtime
+      } else if (item.type === 'tv-show') {
+        insertData.current_season = (item as any).currentSeason
+        insertData.current_episode = (item as any).currentEpisode
+        insertData.total_seasons = (item as any).totalSeasons
+        insertData.total_episodes = (item as any).totalEpisodes
+      }
+
       const { error } = await supabase
         .from('media_items')
-        .insert({
-          user_id: user.id,
-          title: item.title,
-          creator: item.type === 'book' ? item.author! : 
-                  item.type === 'movie' ? item.director! : item.creator!,
-          type: item.type,
-          status: item.status,
-          cover_url: item.coverUrl,
-          progress: item.progress,
-          total_pages: item.totalPages,
-          runtime: item.runtime,
-          current_season: item.currentSeason,
-          current_episode: item.currentEpisode,
-          total_seasons: item.totalSeasons,
-          total_episodes: item.totalEpisodes,
-          genre: item.genre,
-          release_year: item.releaseYear,
-          rating: item.rating,
-          notes: item.notes,
-          date_added: new Date().toISOString(),
-          date_started: item.dateStarted?.toISOString(),
-          date_completed: item.dateCompleted?.toISOString(),
-        })
+        .insert(insertData)
 
       if (error) throw error
       await fetchMediaItems()
@@ -103,9 +118,6 @@ export function useMediaItems() {
 
       const updateData: any = {
         status: updates.status,
-        progress: updates.progress,
-        current_season: updates.currentSeason,
-        current_episode: updates.currentEpisode,
         rating: updates.rating,
         notes: updates.notes,
         date_started: updates.dateStarted?.toISOString(),
@@ -113,14 +125,32 @@ export function useMediaItems() {
         updated_at: new Date().toISOString(),
       }
 
-      // Only include title and creator if they are provided in updates
+      // Only include title if provided in updates
       if (updates.title !== undefined) {
         updateData.title = updates.title
       }
 
-      if (updates.author !== undefined || updates.director !== undefined || updates.creator !== undefined) {
-        updateData.creator = currentItem.type === 'book' ? updates.author : 
-                            currentItem.type === 'movie' ? updates.director : updates.creator
+      // Handle creator field based on type
+      if (currentItem.type === 'book' && (updates as any).author !== undefined) {
+        updateData.creator = (updates as any).author
+      } else if (currentItem.type === 'movie' && (updates as any).director !== undefined) {
+        updateData.creator = (updates as any).director
+      } else if (currentItem.type === 'tv-show' && (updates as any).creator !== undefined) {
+        updateData.creator = (updates as any).creator
+      }
+
+      // Handle type-specific fields
+      if (currentItem.type === 'book' && (updates as any).progress !== undefined) {
+        updateData.progress = (updates as any).progress
+      }
+
+      if (currentItem.type === 'tv-show') {
+        if ((updates as any).currentSeason !== undefined) {
+          updateData.current_season = (updates as any).currentSeason
+        }
+        if ((updates as any).currentEpisode !== undefined) {
+          updateData.current_episode = (updates as any).currentEpisode
+        }
       }
 
       const { error } = await supabase

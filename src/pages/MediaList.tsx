@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Filter, Edit, Trash2, Star, X } from 'lucide-react'
@@ -109,19 +109,24 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
   const [currentSeason, setCurrentSeason] = useState('')
   const [currentEpisode, setCurrentEpisode] = useState('')
 
-  React.useEffect(() => {
+  useState(() => {
     if (item) {
       setTitle(item.title)
-      setCreator(item.type === 'book' ? item.author || '' : 
-                 item.type === 'movie' ? item.director || '' : item.creator || '')
+      if (item.type === 'book') {
+        setCreator(item.author || '')
+      } else if (item.type === 'movie') {
+        setCreator(item.director || '')
+      } else {
+        setCreator(item.creator || '')
+      }
       setStatus(item.status)
-      setProgress(item.progress?.toString() || '')
+      setProgress((item as any).progress?.toString() || '')
       setRating(item.rating || 0)
       setNotes(item.notes || '')
-      setCurrentSeason(item.currentSeason?.toString() || '')
-      setCurrentEpisode(item.currentEpisode?.toString() || '')
+      setCurrentSeason((item as any).currentSeason?.toString() || '')
+      setCurrentEpisode((item as any).currentEpisode?.toString() || '')
     }
-  }, [item])
+  })
 
   const handleSave = () => {
     if (!item || !title.trim() || !creator.trim()) {
@@ -129,7 +134,7 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
       return
     }
 
-    const updates: Partial<MediaItem> = {
+    const updates: any = {
       title: title.trim(),
       status: status,
       rating: rating || undefined,
@@ -392,12 +397,17 @@ export default function MediaList() {
     if (searchQuery) {
       filtered = filtered.filter(item => {
         const title = item.title.toLowerCase()
-        const creator = selectedType === 'book' ? item.author?.toLowerCase() :
-                       selectedType === 'movie' ? item.director?.toLowerCase() :
-                       item.creator?.toLowerCase()
+        let creator = ''
+        if (selectedType === 'book') {
+          creator = item.author?.toLowerCase() || ''
+        } else if (selectedType === 'movie') {
+          creator = item.director?.toLowerCase() || ''
+        } else {
+          creator = item.creator?.toLowerCase() || ''
+        }
         const query = searchQuery.toLowerCase()
         
-        return title.includes(query) || (creator && creator.includes(query))
+        return title.includes(query) || creator.includes(query)
       })
     }
 
@@ -413,12 +423,25 @@ export default function MediaList() {
           comparison = a.dateAdded.getTime() - b.dateAdded.getTime()
           break
         case 'progress':
-          const aProgress = a.type === 'book' && a.status === 'reading' ? (a.progress || 0) :
-                           a.type === 'tv-show' && a.status === 'watching' && a.currentEpisode && a.totalEpisodes ? 
-                           Math.round(((a.currentSeason || 1) - 1) * (a.totalEpisodes / (a.totalSeasons || 1)) + (a.currentEpisode || 1)) / a.totalEpisodes * 100 : 0
-          const bProgress = b.type === 'book' && b.status === 'reading' ? (b.progress || 0) :
-                           b.type === 'tv-show' && b.status === 'watching' && b.currentEpisode && b.totalEpisodes ? 
-                           Math.round(((b.currentSeason || 1) - 1) * (b.totalEpisodes / (b.totalSeasons || 1)) + (b.currentEpisode || 1)) / b.totalEpisodes * 100 : 0
+          let aProgress = 0
+          let bProgress = 0
+          
+          if (a.type === 'book' && a.status === 'reading') {
+            aProgress = (a as any).progress || 0
+          } else if (a.type === 'tv-show' && a.status === 'watching' && (a as any).currentEpisode && (a as any).totalEpisodes) {
+            const currentSeason = (a as any).currentSeason || 1
+            const totalSeasons = (a as any).totalSeasons || 1
+            aProgress = Math.round(((currentSeason - 1) * ((a as any).totalEpisodes / totalSeasons) + (a as any).currentEpisode) / (a as any).totalEpisodes * 100)
+          }
+          
+          if (b.type === 'book' && b.status === 'reading') {
+            bProgress = (b as any).progress || 0
+          } else if (b.type === 'tv-show' && b.status === 'watching' && (b as any).currentEpisode && (b as any).totalEpisodes) {
+            const currentSeason = (b as any).currentSeason || 1
+            const totalSeasons = (b as any).totalSeasons || 1
+            bProgress = Math.round(((currentSeason - 1) * ((b as any).totalEpisodes / totalSeasons) + (b as any).currentEpisode) / (b as any).totalEpisodes * 100)
+          }
+          
           comparison = aProgress - bProgress
           break
       }

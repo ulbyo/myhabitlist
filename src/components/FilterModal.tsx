@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Check } from 'lucide-react'
 import { MediaStatus, MediaType } from '../types/media'
@@ -52,18 +51,6 @@ export default function FilterModal({
     { key: 'progress', label: 'Progress' },
   ] as const
 
-  const filters = getFilters()
-
-  const handleApply = () => {
-    onClose()
-  }
-
-  const handleReset = () => {
-    onFilterChange('all')
-    onSortChange('dateAdded')
-    onSortOrderChange('desc')
-  }
-
   const getSortOrderOptions = () => {
     if (sortBy === 'title') {
       return [
@@ -81,6 +68,18 @@ export default function FilterModal({
         { key: 'asc', label: 'Oldest First' },
       ]
     }
+  }
+
+  const filters = getFilters()
+
+  const handleApply = () => {
+    onClose()
+  }
+
+  const handleReset = () => {
+    onFilterChange('all')
+    onSortChange('dateAdded')
+    onSortOrderChange('desc')
   }
 
   return (

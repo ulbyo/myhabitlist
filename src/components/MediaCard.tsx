@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import { Clock, CheckCircle, BookOpen, Play, Tv, MoreHorizontal } from 'lucide-react'
 import { MediaItem } from '../types/media'
@@ -35,7 +34,7 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
         return item.progress ? `${item.progress}% complete` : 'Reading'
       case 'watching':
         if (item.type === 'tv-show') {
-          return `S${item.currentSeason}E${item.currentEpisode || 1}`
+          return `S${item.currentSeason || 1}E${item.currentEpisode || 1}`
         }
         return 'Watching'
       case 'completed':
@@ -55,13 +54,12 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
   }
 
   const getCreatorLabel = () => {
-    switch (item.type) {
-      case 'book':
-        return item.author
-      case 'movie':
-        return item.director
-      case 'tv-show':
-        return item.creator
+    if (item.type === 'book') {
+      return item.author
+    } else if (item.type === 'movie') {
+      return item.director
+    } else {
+      return item.creator
     }
   }
 
@@ -70,7 +68,9 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
       return item.progress
     }
     if (item.type === 'tv-show' && item.status === 'watching' && item.currentEpisode && item.totalEpisodes) {
-      return Math.round(((item.currentSeason - 1) * (item.totalEpisodes / item.totalSeasons) + item.currentEpisode) / item.totalEpisodes * 100)
+      const currentSeason = item.currentSeason || 1
+      const totalSeasons = item.totalSeasons || 1
+      return Math.round(((currentSeason - 1) * (item.totalEpisodes / totalSeasons) + item.currentEpisode) / item.totalEpisodes * 100)
     }
     return null
   }
