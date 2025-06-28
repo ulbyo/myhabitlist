@@ -55,7 +55,7 @@ export function useMediaItems() {
     }
   }
 
-  const addMediaItem = async (item: Omit<MediaItem, 'id' | 'dateAdded'>) => {
+  const addMediaItem = async (item: any) => {
     if (!user) return
 
     try {
@@ -65,9 +65,6 @@ export function useMediaItems() {
         type: item.type,
         status: item.status,
         cover_url: item.coverUrl,
-        genre: item.genre,
-        release_year: item.releaseYear,
-        rating: item.rating,
         notes: item.notes,
         date_added: new Date().toISOString(),
         date_started: item.dateStarted?.toISOString(),
@@ -76,25 +73,30 @@ export function useMediaItems() {
 
       // Set creator based on type
       if (item.type === 'book') {
-        insertData.creator = (item as any).author
+        insertData.creator = item.author
       } else if (item.type === 'movie') {
-        insertData.creator = (item as any).director
+        insertData.creator = item.director
       } else {
-        insertData.creator = (item as any).creator
+        insertData.creator = item.creator
       }
 
       // Set type-specific fields
       if (item.type === 'book') {
-        insertData.progress = (item as any).progress
-        insertData.total_pages = (item as any).totalPages
+        insertData.progress = item.progress
+        insertData.total_pages = item.totalPages
       } else if (item.type === 'movie') {
-        insertData.runtime = (item as any).runtime
+        insertData.runtime = item.runtime
       } else if (item.type === 'tv-show') {
-        insertData.current_season = (item as any).currentSeason
-        insertData.current_episode = (item as any).currentEpisode
-        insertData.total_seasons = (item as any).totalSeasons
-        insertData.total_episodes = (item as any).totalEpisodes
+        insertData.current_season = item.currentSeason
+        insertData.current_episode = item.currentEpisode
+        insertData.total_seasons = item.totalSeasons
+        insertData.total_episodes = item.totalEpisodes
       }
+
+      // Add optional fields
+      if (item.genre) insertData.genre = item.genre
+      if (item.releaseYear) insertData.release_year = item.releaseYear
+      if (item.rating) insertData.rating = item.rating
 
       const { error } = await supabase
         .from('media_items')

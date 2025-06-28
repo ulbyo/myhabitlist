@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 
@@ -29,12 +29,6 @@ export default function SearchModal({ isOpen, onClose, searchQuery, onSearchChan
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSearchChange(localQuery.trim())
-    onClose()
-  }
-
-  const handleClear = () => {
-    setLocalQuery('')
-    onSearchChange('')
     onClose()
   }
 

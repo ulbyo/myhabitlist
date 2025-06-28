@@ -113,11 +113,11 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
     if (item) {
       setTitle(item.title)
       if (item.type === 'book') {
-        setCreator(item.author || '')
+        setCreator((item as any).author || '')
       } else if (item.type === 'movie') {
-        setCreator(item.director || '')
+        setCreator((item as any).director || '')
       } else {
-        setCreator(item.creator || '')
+        setCreator((item as any).creator || '')
       }
       setStatus(item.status)
       setProgress((item as any).progress?.toString() || '')
@@ -399,11 +399,11 @@ export default function MediaList() {
         const title = item.title.toLowerCase()
         let creator = ''
         if (selectedType === 'book') {
-          creator = item.author?.toLowerCase() || ''
+          creator = (item as any).author?.toLowerCase() || ''
         } else if (selectedType === 'movie') {
-          creator = item.director?.toLowerCase() || ''
+          creator = (item as any).director?.toLowerCase() || ''
         } else {
-          creator = item.creator?.toLowerCase() || ''
+          creator = (item as any).creator?.toLowerCase() || ''
         }
         const query = searchQuery.toLowerCase()
         

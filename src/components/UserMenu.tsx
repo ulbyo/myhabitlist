@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { User, LogOut, Settings, HelpCircle } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
