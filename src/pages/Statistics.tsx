@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen, Target, Clock, TrendingUp, Play, Tv, Star } from 'lucide-react'
+import { BookOpen, Target, Clock, TrendingUp, Play, Tv, Star, Calendar, Award, Zap } from 'lucide-react'
 import Header from '../components/Header'
 import { useMediaItems } from '../hooks/useMediaItems'
 
@@ -11,9 +11,10 @@ interface StatCardProps {
   subtitle?: string
   delay?: number
   onClick?: () => void
+  className?: string
 }
 
-function StatCard({ icon, title, value, subtitle, delay = 0, onClick }: StatCardProps) {
+function StatCard({ icon, title, value, subtitle, delay = 0, onClick, className = '' }: StatCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -22,16 +23,16 @@ function StatCard({ icon, title, value, subtitle, delay = 0, onClick }: StatCard
       whileHover={onClick ? { scale: 1.02 } : undefined}
       whileTap={onClick ? { scale: 0.98 } : undefined}
       onClick={onClick}
-      className={`bg-white rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 ${
+      className={`bg-white rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md border border-gray-200 transition-all duration-300 ${
         onClick ? 'cursor-pointer' : ''
-      }`}
+      } ${className}`}
     >
-      <div className="flex items-center gap-2 mb-2 sm:mb-3">
+      <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
         {icon}
-        <h3 className="text-xs sm:text-sm font-medium text-gray-400">{title}</h3>
+        <h3 className="text-xs sm:text-sm font-medium text-gray-500">{title}</h3>
       </div>
-      <p className="text-xl sm:text-2xl font-bold text-black mb-1">{value}</p>
-      {subtitle && <p className="text-xs sm:text-sm text-gray-400">{subtitle}</p>}
+      <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{value}</p>
+      {subtitle && <p className="text-xs sm:text-sm text-gray-500">{subtitle}</p>}
     </motion.div>
   )
 }
@@ -65,6 +66,15 @@ export default function Statistics() {
       item.dateCompleted && item.dateCompleted.getFullYear() === thisYear
     )
 
+    const thisMonth = new Date().getMonth()
+    const thisMonthItems = mediaItems.filter(item => 
+      item.dateCompleted && 
+      item.dateCompleted.getFullYear() === thisYear &&
+      item.dateCompleted.getMonth() === thisMonth
+    )
+
+    const bookmarkedItems = mediaItems.filter(item => item.isBookmarked).length
+
     return {
       booksRead,
       moviesWatched,
@@ -74,7 +84,9 @@ export default function Statistics() {
       totalRuntime: Math.round(totalRuntime / 60), // Convert to hours
       averageRating: Math.round(averageRating * 10) / 10,
       thisYearCompleted: thisYearItems.length,
+      thisMonthCompleted: thisMonthItems.length,
       totalItems: mediaItems.length,
+      bookmarkedItems,
     }
   }, [mediaItems])
 
@@ -83,13 +95,14 @@ export default function Statistics() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen lg:ml-64 xl:ml-72">
       <Header title="Statistics" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 pb-24 sm:pb-28">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 space-y-6 lg:space-y-8 pb-24 lg:pb-8">
+        {/* Main Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
           <StatCard
-            icon={<BookOpen size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<BookOpen size={18} className="text-blue-600 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />}
             title="Books Read"
             value={stats.booksRead.toString()}
             subtitle="Completed"
@@ -97,7 +110,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('Books')}
           />
           <StatCard
-            icon={<Play size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<Play size={18} className="text-green-600 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />}
             title="Movies Watched"
             value={stats.moviesWatched.toString()}
             subtitle="Completed"
@@ -105,7 +118,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('Movies')}
           />
           <StatCard
-            icon={<Tv size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<Tv size={18} className="text-purple-600 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />}
             title="TV Shows"
             value={stats.tvShowsCompleted.toString()}
             subtitle="Completed"
@@ -113,7 +126,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('TV Shows')}
           />
           <StatCard
-            icon={<Clock size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<Clock size={18} className="text-orange-600 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />}
             title="Watch Time"
             value={`${stats.totalRuntime}h`}
             subtitle="Movies only"
@@ -122,9 +135,10 @@ export default function Statistics() {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        {/* Secondary Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           <StatCard
-            icon={<Target size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<Target size={18} className="text-red-600 sm:w-5 sm:h-5" />}
             title="Currently Reading"
             value={stats.currentlyReading.toString()}
             subtitle="In progress"
@@ -132,69 +146,98 @@ export default function Statistics() {
             onClick={() => handleStatClick('Currently Reading')}
           />
           <StatCard
-            icon={<TrendingUp size={18} className="text-black sm:w-5 sm:h-5" />}
+            icon={<TrendingUp size={18} className="text-indigo-600 sm:w-5 sm:h-5" />}
             title="Currently Watching"
             value={stats.currentlyWatching.toString()}
             subtitle="In progress"
             delay={0.5}
             onClick={() => handleStatClick('Currently Watching')}
           />
+          <StatCard
+            icon={<Zap size={18} className="text-yellow-600 sm:w-5 sm:h-5" />}
+            title="Bookmarked"
+            value={stats.bookmarkedItems.toString()}
+            subtitle="Favorites"
+            delay={0.6}
+            onClick={() => handleStatClick('Bookmarked')}
+          />
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm"
-        >
-          <h2 className="text-sm sm:text-base font-semibold text-black mb-4 sm:mb-6">Library Overview</h2>
-          <div className="space-y-3 sm:space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-sm sm:text-base font-medium text-black">Total Items</h3>
-              <span className="text-sm sm:text-base font-bold text-black">{stats.totalItems}</span>
+        {/* Detailed Overview */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200"
+          >
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <Calendar size={20} className="text-gray-700" />
+              <h2 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">Library Overview</h2>
             </div>
-            <div className="flex justify-between items-center">
-              <h3 className="text-sm sm:text-base font-medium text-black">Completed This Year</h3>
-              <span className="text-sm sm:text-base font-bold text-black">{stats.thisYearCompleted}</span>
-            </div>
-            {stats.averageRating > 0 && (
+            <div className="space-y-3 sm:space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-sm sm:text-base font-medium text-black">Average Rating</h3>
-                <div className="flex items-center gap-1">
-                  <Star size={14} className="text-yellow-400 fill-current sm:w-4 sm:h-4" />
-                  <span className="text-sm sm:text-base font-bold text-black">{stats.averageRating}</span>
-                </div>
+                <h3 className="text-sm sm:text-base font-medium text-gray-700">Total Items</h3>
+                <span className="text-sm sm:text-base font-bold text-gray-900">{stats.totalItems}</span>
               </div>
-            )}
-          </div>
-        </motion.div>
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm sm:text-base font-medium text-gray-700">Completed This Year</h3>
+                <span className="text-sm sm:text-base font-bold text-gray-900">{stats.thisYearCompleted}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <h3 className="text-sm sm:text-base font-medium text-gray-700">Completed This Month</h3>
+                <span className="text-sm sm:text-base font-bold text-gray-900">{stats.thisMonthCompleted}</span>
+              </div>
+              {stats.averageRating > 0 && (
+                <div className="flex justify-between items-center">
+                  <h3 className="text-sm sm:text-base font-medium text-gray-700">Average Rating</h3>
+                  <div className="flex items-center gap-1">
+                    <Star size={14} className="text-yellow-500 fill-current sm:w-4 sm:h-4" />
+                    <span className="text-sm sm:text-base font-bold text-gray-900">{stats.averageRating}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7 }}
-          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm"
-        >
-          <h2 className="text-sm sm:text-base font-semibold text-black mb-4 sm:mb-6">Quick Actions</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => alert('Export feature coming soon!')}
-              className="p-3 sm:p-4 bg-gray-50 rounded-xl text-sm sm:text-base font-medium text-black hover:bg-gray-100 transition-colors"
-            >
-              Export Data
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => alert('Backup feature coming soon!')}
-              className="p-3 sm:p-4 bg-gray-50 rounded-xl text-sm sm:text-base font-medium text-black hover:bg-gray-100 transition-colors"
-            >
-              Backup Library
-            </motion.button>
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200"
+          >
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <Award size={20} className="text-gray-700" />
+              <h2 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-900">Quick Actions</h2>
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:gap-4">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => alert('Export feature coming soon!')}
+                className="p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-gray-300 rounded-xl text-sm sm:text-base font-medium text-gray-700 hover:text-gray-900 transition-all duration-200 text-left"
+              >
+                📊 Export Data
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => alert('Backup feature coming soon!')}
+                className="p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-gray-300 rounded-xl text-sm sm:text-base font-medium text-gray-700 hover:text-gray-900 transition-all duration-200 text-left"
+              >
+                💾 Backup Library
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => alert('Analytics feature coming soon!')}
+                className="p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 border border-gray-200 hover:border-gray-300 rounded-xl text-sm sm:text-base font-medium text-gray-700 hover:text-gray-900 transition-all duration-200 text-left"
+              >
+                📈 View Analytics
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </div>
   )

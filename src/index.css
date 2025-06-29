@@ -178,3 +178,92 @@ textarea:focus-visible {
 .text-low-contrast {
   color: #6B7280;
 }
+
+/* Desktop-specific styles */
+@media (min-width: 1024px) {
+  /* Ensure proper spacing for desktop sidebar */
+  .main-content {
+    margin-left: 16rem; /* 64 * 0.25rem = 16rem */
+  }
+  
+  /* Better hover states for desktop */
+  .desktop-hover:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Improved grid layouts for larger screens */
+  .desktop-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  /* Better typography for desktop */
+  .desktop-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  /* Enhanced spacing for desktop */
+  .desktop-spacing {
+    padding: 2rem;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1280px) {
+  .main-content {
+    margin-left: 18rem; /* 72 * 0.25rem = 18rem */
+  }
+  
+  .xl-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Ultra wide screens */
+@media (min-width: 1536px) {
+  .ultra-wide-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .card-shadow {
+    border: 2px solid #000;
+  }
+  
+  .text-gray-500 {
+    color: #000 !important;
+  }
+  
+  .bg-gray-50 {
+    background-color: #fff !important;
+    border: 1px solid #000;
+  }
+}

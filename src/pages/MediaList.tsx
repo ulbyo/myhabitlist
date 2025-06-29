@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Edit, Trash2, Star, X, Bookmark, Share2, Link, Copy, Check } from 'lucide-react'
+import { Search, Filter, Edit, Trash2, Star, X, Bookmark, Share2, Link, Copy, Check, Grid3X3, List } from 'lucide-react'
 import Header from '../components/Header'
 import MediaCard from '../components/MediaCard'
 import MediaFilterTabs from '../components/MediaFilterTabs'
@@ -42,11 +42,11 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
+            className="fixed bottom-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:bottom-auto left-0 right-0 lg:left-auto lg:right-auto bg-white rounded-t-2xl lg:rounded-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t lg:border border-gray-200 lg:shadow-xl"
           >
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 lg:px-6 py-4 lg:py-5 rounded-t-2xl lg:rounded-t-2xl">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">{item.title}</h2>
+                <h2 className="text-lg lg:text-xl font-semibold text-gray-900 truncate pr-4">{item.title}</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -58,7 +58,7 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
               </div>
             </div>
 
-            <div className="p-4 space-y-3">
+            <div className="p-4 lg:p-6 space-y-3">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -66,14 +66,14 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onBookmark(item.id)
                   onClose()
                 }}
-                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 border ${
+                className={`w-full flex items-center gap-3 p-3 lg:p-4 rounded-xl transition-all duration-200 border ${
                   item.isBookmarked 
                     ? 'bg-yellow-50 hover:bg-yellow-100 border-yellow-200 text-yellow-700' 
                     : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700'
                 }`}
               >
                 <Bookmark size={16} className={item.isBookmarked ? 'text-yellow-600 fill-current' : 'text-gray-600'} />
-                <span className="text-sm font-medium">
+                <span className="text-sm lg:text-base font-medium">
                   {item.isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
                 </span>
               </motion.button>
@@ -85,10 +85,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onShare(item)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
+                className="w-full flex items-center gap-3 p-3 lg:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
               >
                 <Share2 size={16} className="text-gray-600" />
-                <span className="text-sm font-medium">Share</span>
+                <span className="text-sm lg:text-base font-medium">Share</span>
               </motion.button>
 
               <motion.button
@@ -98,10 +98,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onEdit(item)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
+                className="w-full flex items-center gap-3 p-3 lg:p-4 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
               >
                 <Edit size={16} className="text-gray-600" />
-                <span className="text-sm font-medium">Edit Details</span>
+                <span className="text-sm lg:text-base font-medium">Edit Details</span>
               </motion.button>
 
               <motion.button
@@ -113,10 +113,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                     onClose()
                   }
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 hover:text-red-800 transition-all duration-200"
+                className="w-full flex items-center gap-3 p-3 lg:p-4 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 hover:text-red-800 transition-all duration-200"
               >
                 <Trash2 size={16} className="text-red-600" />
-                <span className="text-sm font-medium">Delete</span>
+                <span className="text-sm lg:text-base font-medium">Delete</span>
               </motion.button>
             </div>
           </motion.div>
@@ -195,11 +195,11 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
+            className="fixed bottom-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:bottom-auto left-0 right-0 lg:left-auto lg:right-auto bg-white rounded-t-2xl lg:rounded-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t lg:border border-gray-200 lg:shadow-xl"
           >
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 lg:px-6 py-4 lg:py-5 rounded-t-2xl lg:rounded-t-2xl">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">Share "{item.title}"</h2>
+                <h2 className="text-lg lg:text-xl font-semibold text-gray-900 truncate pr-4">Share "{item.title}"</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -211,7 +211,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
               </div>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="p-4 lg:p-6 space-y-4">
               {existingShareLink || shareLink ? (
                 <>
                   <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
@@ -224,7 +224,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                         type="text"
                         value={existingShareLink || shareLink || ''}
                         readOnly
-                        className="flex-1 text-xs text-gray-600 bg-transparent border-none outline-none"
+                        className="flex-1 text-xs lg:text-sm text-gray-600 bg-transparent border-none outline-none"
                       />
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -244,17 +244,17 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleStopSharing}
-                    className="w-full py-3 px-4 bg-red-50 text-red-700 border border-red-200 text-sm font-medium rounded-xl hover:bg-red-100 hover:border-red-300 transition-all duration-200"
+                    className="w-full py-3 lg:py-4 px-4 bg-red-50 text-red-700 border border-red-200 text-sm lg:text-base font-medium rounded-xl hover:bg-red-100 hover:border-red-300 transition-all duration-200"
                   >
                     Stop Sharing
                   </motion.button>
                 </>
               ) : (
                 <>
-                  <div className="text-center py-4">
+                  <div className="text-center py-4 lg:py-6">
                     <Share2 size={32} className="text-gray-400 mx-auto mb-3" />
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Share this item</h3>
-                    <p className="text-sm text-gray-600 mb-4">
+                    <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2">Share this item</h3>
+                    <p className="text-sm lg:text-base text-gray-600 mb-4">
                       Generate a public link that anyone can use to view this item
                     </p>
                   </div>
@@ -264,7 +264,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                     whileTap={{ scale: 0.98 }}
                     onClick={handleGenerateLink}
                     disabled={loading}
-                    className="w-full py-3 px-4 bg-gray-900 text-white border border-gray-900 text-sm font-medium rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 lg:py-4 px-4 bg-gray-900 text-white border border-gray-900 text-sm lg:text-base font-medium rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? 'Generating Link...' : 'Generate Share Link'}
                   </motion.button>
@@ -398,11 +398,11 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
+            className="fixed bottom-0 lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:bottom-auto left-0 right-0 lg:left-auto lg:right-auto bg-white rounded-t-2xl lg:rounded-2xl z-50 max-h-[80vh] lg:max-h-[90vh] overflow-y-auto mx-auto max-w-md lg:max-w-lg border-t lg:border border-gray-200 lg:shadow-xl"
           >
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 lg:px-6 py-4 lg:py-5 rounded-t-2xl lg:rounded-t-2xl">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
+                <h2 className="text-lg lg:text-xl font-semibold text-gray-900 truncate pr-4">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -425,7 +425,7 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
               </div>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
               {/* Title */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Title *</label>
@@ -571,6 +571,7 @@ export default function MediaList() {
   const [isActionModalOpen, setIsActionModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
 
   const filteredItems = useMemo(() => {
     let filtered = mediaItems.filter(item => item.type === selectedType)
@@ -728,7 +729,35 @@ export default function MediaList() {
   }
 
   const HeaderActions = () => (
-    <div className="flex items-center gap-1 sm:gap-2">
+    <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
+      {/* View Mode Toggle - Desktop Only */}
+      <div className="hidden lg:flex items-center gap-1 bg-gray-100 border border-gray-200 rounded-lg p-1">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setViewMode('grid')}
+          className={`p-2 rounded-md transition-all duration-200 ${
+            viewMode === 'grid'
+              ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Grid3X3 size={16} />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setViewMode('list')}
+          className={`p-2 rounded-md transition-all duration-200 ${
+            viewMode === 'list'
+              ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <List size={16} />
+        </motion.button>
+      </div>
+
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -758,7 +787,7 @@ export default function MediaList() {
   )
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen lg:ml-64 xl:ml-72">
       <Header title="My Library" rightComponent={<HeaderActions />} />
       
       <MediaTypeTabs
@@ -798,7 +827,7 @@ export default function MediaList() {
         </motion.div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 sm:pb-28">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 lg:pb-8">
         <AnimatePresence mode="wait">
           {filteredItems.length === 0 ? (
             <motion.div
@@ -808,7 +837,7 @@ export default function MediaList() {
               exit={{ opacity: 0, y: -20 }}
               className="text-center py-16 px-4"
             >
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
+              <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">
                 No {selectedType === 'book' ? 'books' : selectedType === 'movie' ? 'movies' : 'TV shows'} found
               </h3>
               <p className="text-gray-600 mb-8 max-w-md mx-auto">
@@ -831,7 +860,11 @@ export default function MediaList() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+              className={
+                viewMode === 'grid' 
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-6"
+                  : "space-y-3 sm:space-y-4"
+              }
             >
               {filteredItems.map((item, index) => (
                 <motion.div
