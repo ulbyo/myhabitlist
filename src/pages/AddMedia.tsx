@@ -77,11 +77,11 @@ export default function AddMedia() {
   const getIcon = () => {
     switch (mediaType) {
       case 'book':
-        return <BookOpen size={32} className="text-gray-400" />
+        return <BookOpen size={28} className="text-gray-400 sm:w-8 sm:h-8" />
       case 'movie':
-        return <Play size={32} className="text-gray-400" />
+        return <Play size={28} className="text-gray-400 sm:w-8 sm:h-8" />
       case 'tv-show':
-        return <Tv size={32} className="text-gray-400" />
+        return <Tv size={28} className="text-gray-400 sm:w-8 sm:h-8" />
     }
   }
 
@@ -125,7 +125,7 @@ export default function AddMedia() {
         animate={{ opacity: 1, y: 0 }}
         className="sticky top-0 z-40 bg-white border-b border-gray-200"
       >
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -135,7 +135,7 @@ export default function AddMedia() {
             <X size={20} className="text-black" />
           </motion.button>
           
-          <h1 className="text-lg font-semibold text-black">Add to Library</h1>
+          <h1 className="text-lg sm:text-xl font-semibold text-black">Add to Library</h1>
           
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -149,13 +149,13 @@ export default function AddMedia() {
         </div>
       </motion.header>
 
-      <div className="max-w-2xl mx-auto px-4 py-6">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl p-4 shadow-sm mb-4"
+          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm mb-4 sm:mb-6"
         >
-          <div className="flex gap-1 p-1 bg-gray-50 rounded-2xl mb-4">
+          <div className="flex gap-1 p-1 bg-gray-50 rounded-2xl mb-4 sm:mb-6">
             {[
               { key: 'book', label: 'Book', icon: BookOpen },
               { key: 'movie', label: 'Movie', icon: Play },
@@ -166,26 +166,27 @@ export default function AddMedia() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setMediaType(key as MediaType)}
-                className={`relative flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-xs font-medium transition-colors ${
+                className={`relative flex-1 flex items-center justify-center gap-2 px-3 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-colors ${
                   mediaType === key
                     ? 'text-black bg-white shadow-sm'
                     : 'text-gray-400 hover:text-gray-600'
                 }`}
               >
-                <Icon size={14} />
-                <span>{label}</span>
+                <Icon size={14} className="flex-shrink-0" />
+                <span className="hidden xs:inline">{label}</span>
+                <span className="xs:hidden">{key === 'tv-show' ? 'TV' : label}</span>
               </motion.button>
             ))}
           </div>
 
           <div className="text-center">
-            <div className="w-24 h-32 bg-gray-50 rounded-xl mx-auto mb-3 flex items-center justify-center">
+            <div className="w-20 h-28 sm:w-24 sm:h-32 bg-gray-50 rounded-xl mx-auto mb-3 sm:mb-4 flex items-center justify-center">
               {getIcon()}
             </div>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-full text-xs font-medium text-black hover:bg-gray-100 transition-colors mx-auto"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded-full text-xs sm:text-sm font-medium text-black hover:bg-gray-100 transition-colors mx-auto"
               onClick={() => alert('Cover upload feature coming soon!')}
             >
               <Camera size={14} />
@@ -199,7 +200,7 @@ export default function AddMedia() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl p-4 shadow-sm space-y-4"
+          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm space-y-4 sm:space-y-6"
         >
           <div>
             <label htmlFor="title" className="block text-sm font-semibold text-black mb-2">
@@ -231,7 +232,7 @@ export default function AddMedia() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label htmlFor="additionalInfo" className="block text-sm font-semibold text-black mb-2">
                 {getAdditionalLabel()}

@@ -42,16 +42,16 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black">{item.title}</h2>
+                <h2 className="text-lg font-semibold text-black truncate pr-4">{item.title}</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-gray-50 transition-colors"
+                  className="p-2 rounded-full hover:bg-gray-50 transition-colors flex-shrink-0"
                 >
                   <X size={16} className="text-gray-400" />
                 </motion.button>
@@ -195,16 +195,16 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black">Share "{item.title}"</h2>
+                <h2 className="text-lg font-semibold text-black truncate pr-4">Share "{item.title}"</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-gray-50 transition-colors"
+                  className="p-2 rounded-full hover:bg-gray-50 transition-colors flex-shrink-0"
                 >
                   <X size={16} className="text-gray-400" />
                 </motion.button>
@@ -230,7 +230,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleCopyLink}
-                        className="p-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
+                        className="p-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors flex-shrink-0"
                       >
                         {copied ? <Check size={14} /> : <Copy size={14} />}
                       </motion.button>
@@ -398,12 +398,12 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
-                <div className="flex items-center gap-2">
+                <h2 className="text-lg font-semibold text-black truncate pr-4">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
+                <div className="flex items-center gap-2 flex-shrink-0">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -453,7 +453,7 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
               {/* Status */}
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">Status</label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {getStatusOptions().map(({ value, label }) => (
                     <motion.button
                       key={value}
@@ -694,8 +694,8 @@ export default function MediaList() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
           <h2 className="text-lg font-semibold text-black mb-2">Something went wrong</h2>
           <p className="text-sm text-gray-400">{error}</p>
         </div>
@@ -728,7 +728,7 @@ export default function MediaList() {
   }
 
   const HeaderActions = () => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 sm:gap-2">
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -737,7 +737,7 @@ export default function MediaList() {
           searchQuery ? 'bg-black text-white' : 'bg-white/80 hover:bg-white text-black'
         }`}
       >
-        <Search size={20} />
+        <Search size={18} className="sm:w-5 sm:h-5" />
       </motion.button>
       <motion.button
         whileHover={{ scale: 1.05 }}
@@ -749,7 +749,7 @@ export default function MediaList() {
             : 'bg-white/80 hover:bg-white text-black'
         }`}
       >
-        <Filter size={20} />
+        <Filter size={18} className="sm:w-5 sm:h-5" />
       </motion.button>
       <UserMenu />
     </div>
@@ -779,7 +779,7 @@ export default function MediaList() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto px-4 mb-4"
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4"
         >
           <div className="flex items-center gap-2 text-sm text-gray-400">
             <span>Searching for:</span>
@@ -796,7 +796,7 @@ export default function MediaList() {
         </motion.div>
       )}
 
-      <div className="max-w-4xl mx-auto px-4 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 sm:pb-28">
         <AnimatePresence mode="wait">
           {filteredItems.length === 0 ? (
             <motion.div
@@ -804,12 +804,12 @@ export default function MediaList() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="text-center py-16"
+              className="text-center py-16 px-4"
             >
               <h3 className="text-xl font-bold text-black mb-2">
                 No {selectedType === 'book' ? 'books' : selectedType === 'movie' ? 'movies' : 'TV shows'} found
               </h3>
-              <p className="text-gray-400 mb-8">
+              <p className="text-gray-400 mb-8 max-w-md mx-auto">
                 {getEmptyStateText()}
               </p>
               {searchQuery && (
@@ -829,7 +829,7 @@ export default function MediaList() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-3"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
             >
               {filteredItems.map((item, index) => (
                 <motion.div

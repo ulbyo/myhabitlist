@@ -14,10 +14,10 @@ export default function Header({ title, rightComponent, className = '' }: Header
       animate={{ opacity: 1, y: 0 }}
       className={`sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-gray-200 ${className}`}
     >
-      <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-black">{title}</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex items-center justify-between">
+        <h1 className="text-lg sm:text-xl font-semibold text-black truncate">{title}</h1>
         {rightComponent && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0 ml-4">
             {rightComponent}
           </div>
         )}

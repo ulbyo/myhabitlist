@@ -22,16 +22,16 @@ function StatCard({ icon, title, value, subtitle, delay = 0, onClick }: StatCard
       whileHover={onClick ? { scale: 1.02 } : undefined}
       whileTap={onClick ? { scale: 0.98 } : undefined}
       onClick={onClick}
-      className={`bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 ${
+      className={`bg-white rounded-2xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 ${
         onClick ? 'cursor-pointer' : ''
       }`}
     >
-      <div className="flex items-center gap-2 mb-2">
+      <div className="flex items-center gap-2 mb-2 sm:mb-3">
         {icon}
-        <h3 className="text-xs font-medium text-gray-400">{title}</h3>
+        <h3 className="text-xs sm:text-sm font-medium text-gray-400">{title}</h3>
       </div>
-      <p className="text-xl font-bold text-black mb-1">{value}</p>
-      {subtitle && <p className="text-xs text-gray-400">{subtitle}</p>}
+      <p className="text-xl sm:text-2xl font-bold text-black mb-1">{value}</p>
+      {subtitle && <p className="text-xs sm:text-sm text-gray-400">{subtitle}</p>}
     </motion.div>
   )
 }
@@ -86,10 +86,10 @@ export default function Statistics() {
     <div className="min-h-screen">
       <Header title="Statistics" />
 
-      <div className="max-w-4xl mx-auto px-4 py-4 space-y-6">
-        <div className="grid grid-cols-2 gap-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-6 pb-24 sm:pb-28">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <StatCard
-            icon={<BookOpen size={20} className="text-black" />}
+            icon={<BookOpen size={18} className="text-black sm:w-5 sm:h-5" />}
             title="Books Read"
             value={stats.booksRead.toString()}
             subtitle="Completed"
@@ -97,7 +97,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('Books')}
           />
           <StatCard
-            icon={<Play size={20} className="text-black" />}
+            icon={<Play size={18} className="text-black sm:w-5 sm:h-5" />}
             title="Movies Watched"
             value={stats.moviesWatched.toString()}
             subtitle="Completed"
@@ -105,7 +105,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('Movies')}
           />
           <StatCard
-            icon={<Tv size={20} className="text-black" />}
+            icon={<Tv size={18} className="text-black sm:w-5 sm:h-5" />}
             title="TV Shows"
             value={stats.tvShowsCompleted.toString()}
             subtitle="Completed"
@@ -113,7 +113,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('TV Shows')}
           />
           <StatCard
-            icon={<Clock size={20} className="text-black" />}
+            icon={<Clock size={18} className="text-black sm:w-5 sm:h-5" />}
             title="Watch Time"
             value={`${stats.totalRuntime}h`}
             subtitle="Movies only"
@@ -122,9 +122,9 @@ export default function Statistics() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <StatCard
-            icon={<Target size={20} className="text-black" />}
+            icon={<Target size={18} className="text-black sm:w-5 sm:h-5" />}
             title="Currently Reading"
             value={stats.currentlyReading.toString()}
             subtitle="In progress"
@@ -132,7 +132,7 @@ export default function Statistics() {
             onClick={() => handleStatClick('Currently Reading')}
           />
           <StatCard
-            icon={<TrendingUp size={20} className="text-black" />}
+            icon={<TrendingUp size={18} className="text-black sm:w-5 sm:h-5" />}
             title="Currently Watching"
             value={stats.currentlyWatching.toString()}
             subtitle="In progress"
@@ -145,24 +145,24 @@ export default function Statistics() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-white rounded-2xl p-4 shadow-sm"
+          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm"
         >
-          <h2 className="text-sm font-semibold text-black mb-4">Library Overview</h2>
-          <div className="space-y-3">
+          <h2 className="text-sm sm:text-base font-semibold text-black mb-4 sm:mb-6">Library Overview</h2>
+          <div className="space-y-3 sm:space-y-4">
             <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-black">Total Items</h3>
-              <span className="text-sm font-bold text-black">{stats.totalItems}</span>
+              <h3 className="text-sm sm:text-base font-medium text-black">Total Items</h3>
+              <span className="text-sm sm:text-base font-bold text-black">{stats.totalItems}</span>
             </div>
             <div className="flex justify-between items-center">
-              <h3 className="text-sm font-medium text-black">Completed This Year</h3>
-              <span className="text-sm font-bold text-black">{stats.thisYearCompleted}</span>
+              <h3 className="text-sm sm:text-base font-medium text-black">Completed This Year</h3>
+              <span className="text-sm sm:text-base font-bold text-black">{stats.thisYearCompleted}</span>
             </div>
             {stats.averageRating > 0 && (
               <div className="flex justify-between items-center">
-                <h3 className="text-sm font-medium text-black">Average Rating</h3>
+                <h3 className="text-sm sm:text-base font-medium text-black">Average Rating</h3>
                 <div className="flex items-center gap-1">
-                  <Star size={14} className="text-yellow-400 fill-current" />
-                  <span className="text-sm font-bold text-black">{stats.averageRating}</span>
+                  <Star size={14} className="text-yellow-400 fill-current sm:w-4 sm:h-4" />
+                  <span className="text-sm sm:text-base font-bold text-black">{stats.averageRating}</span>
                 </div>
               </div>
             )}
@@ -173,15 +173,15 @@ export default function Statistics() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="bg-white rounded-2xl p-4 shadow-sm"
+          className="bg-white rounded-2xl p-4 sm:p-6 shadow-sm"
         >
-          <h2 className="text-sm font-semibold text-black mb-4">Quick Actions</h2>
-          <div className="grid grid-cols-2 gap-3">
+          <h2 className="text-sm sm:text-base font-semibold text-black mb-4 sm:mb-6">Quick Actions</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => alert('Export feature coming soon!')}
-              className="p-3 bg-gray-50 rounded-xl text-sm font-medium text-black hover:bg-gray-100 transition-colors"
+              className="p-3 sm:p-4 bg-gray-50 rounded-xl text-sm sm:text-base font-medium text-black hover:bg-gray-100 transition-colors"
             >
               Export Data
             </motion.button>
@@ -189,7 +189,7 @@ export default function Statistics() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => alert('Backup feature coming soon!')}
-              className="p-3 bg-gray-50 rounded-xl text-sm font-medium text-black hover:bg-gray-100 transition-colors"
+              className="p-3 sm:p-4 bg-gray-50 rounded-xl text-sm sm:text-base font-medium text-black hover:bg-gray-100 transition-colors"
             >
               Backup Library
             </motion.button>

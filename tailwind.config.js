@@ -14,6 +14,13 @@ export default {
         'gray-200': '#E0E0E0',
         'gray-400': '#9E9E9E',
       },
+      screens: {
+        'xs': '475px',
+      },
+      spacing: {
+        '18': '4.5rem',
+        '88': '22rem',
+      },
       backdropBlur: {
         'xs': '2px',
       },
@@ -35,6 +42,10 @@ export default {
           '0%': { transform: 'scale(0.95)', opacity: '0' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
+      },
+      maxWidth: {
+        '8xl': '88rem',
+        '9xl': '96rem',
       },
     },
   },

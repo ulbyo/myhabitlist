@@ -10,15 +10,15 @@ const navItems = [
 
 export default function Navigation() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-200 z-50">
-      <div className="max-w-md mx-auto px-4">
-        <div className="flex justify-around py-2">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-gray-200 z-50 safe-area-pb">
+      <div className="max-w-md mx-auto px-4 sm:px-6">
+        <div className="flex justify-around py-2 sm:py-3">
           {navItems.map(({ to, icon: Icon, label }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex flex-col items-center py-2 px-4 rounded-xl transition-all duration-300 ${
+                `flex flex-col items-center py-2 px-3 sm:px-4 rounded-xl transition-all duration-300 min-w-0 ${
                   isActive
                     ? 'text-black'
                     : 'text-gray-400 hover:text-gray-600'
@@ -42,7 +42,7 @@ export default function Navigation() {
                       />
                     )}
                   </motion.div>
-                  <span className="text-xs font-medium mt-1">{label}</span>
+                  <span className="text-xs font-medium mt-1 truncate">{label}</span>
                 </>
               )}
             </NavLink>
