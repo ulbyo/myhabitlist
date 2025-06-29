@@ -11,12 +11,12 @@ export default function FloatingActionButton({ onClick }: FloatingActionButtonPr
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
-      className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 bg-black text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center z-40"
+      className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 bg-gray-900 hover:bg-gray-800 text-white rounded-full shadow-lg hover:shadow-xl border-2 border-white transition-all duration-300 flex items-center justify-center z-40"
       initial={{ scale: 0 }}
       animate={{ scale: 1 }}
       transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
     >
-      <Plus size={20} strokeWidth={2} />
+      <Plus size={20} strokeWidth={2.5} />
     </motion.button>
   )
 }

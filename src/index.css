@@ -13,7 +13,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F5F5F5;
+  background-color: #F9FAFB;
 }
 
 #root {
@@ -30,12 +30,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E0E0E0;
+  background: #D1D5DB;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9E9E9E;
+  background: #9CA3AF;
 }
 
 /* Hide scrollbar for filter tabs */
@@ -50,20 +50,20 @@ body {
 
 /* Smooth transitions */
 * {
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Focus styles */
+/* Focus styles with better visibility */
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #000000;
+  outline: 2px solid #1F2937;
   outline-offset: 2px;
 }
 
 /* Selection styles */
 ::selection {
-  background-color: #000000;
+  background-color: #1F2937;
   color: #FFFFFF;
 }
 
@@ -125,4 +125,56 @@ textarea:focus-visible {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Enhanced button visibility */
+.btn-enhanced {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.btn-enhanced:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Icon contrast improvements */
+.icon-contrast {
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.5));
+}
+
+/* Status indicator improvements */
+.status-indicator {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Modal backdrop improvements */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+/* Card shadow improvements */
+.card-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card-shadow:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Text contrast improvements */
+.text-high-contrast {
+  color: #111827;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+}
+
+.text-medium-contrast {
+  color: #374151;
+}
+
+.text-low-contrast {
+  color: #6B7280;
 }

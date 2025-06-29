@@ -42,20 +42,12 @@ export default function MediaFilterTabs({ selectedFilter, onFilterChange, mediaT
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onFilterChange(key)}
-            className={`relative px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
+            className={`relative px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 border ${
               selectedFilter === key
-                ? 'text-white'
-                : 'text-gray-400 hover:text-gray-600'
+                ? 'text-white bg-gray-900 border-gray-900 shadow-md'
+                : 'text-gray-600 bg-white border-gray-200 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300'
             }`}
           >
-            {selectedFilter === key && (
-              <motion.div
-                layoutId={`activeFilter-${mediaType}`}
-                className="absolute inset-0 bg-black rounded-full"
-                initial={false}
-                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-              />
-            )}
             <span className="relative z-10">{label}</span>
           </motion.button>
         ))}

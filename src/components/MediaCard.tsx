@@ -14,14 +14,14 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
     switch (item.status) {
       case 'to-read':
       case 'to-watch':
-        return <Clock size={14} className="text-gray-400 flex-shrink-0" />
+        return <Clock size={14} className="text-gray-500 flex-shrink-0" />
       case 'reading':
       case 'watching':
-        return item.type === 'book' ? <BookOpen size={14} className="text-black flex-shrink-0" /> : 
-               item.type === 'movie' ? <Play size={14} className="text-black flex-shrink-0" /> :
-               <Tv size={14} className="text-black flex-shrink-0" />
+        return item.type === 'book' ? <BookOpen size={14} className="text-gray-900 flex-shrink-0" /> : 
+               item.type === 'movie' ? <Play size={14} className="text-gray-900 flex-shrink-0" /> :
+               <Tv size={14} className="text-gray-900 flex-shrink-0" />
       case 'completed':
-        return <CheckCircle size={14} className="text-black flex-shrink-0" />
+        return <CheckCircle size={14} className="text-green-600 flex-shrink-0" />
     }
   }
 
@@ -46,11 +46,11 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
   const getTypeIcon = () => {
     switch (item.type) {
       case 'book':
-        return <BookOpen size={14} className="text-gray-400 flex-shrink-0" />
+        return <BookOpen size={14} className="text-gray-500 flex-shrink-0" />
       case 'movie':
-        return <Play size={14} className="text-gray-400 flex-shrink-0" />
+        return <Play size={14} className="text-gray-500 flex-shrink-0" />
       case 'tv-show':
-        return <Tv size={14} className="text-gray-400 flex-shrink-0" />
+        return <Tv size={14} className="text-gray-500 flex-shrink-0" />
     }
   }
 
@@ -84,13 +84,15 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.98 }}
-      className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group relative"
+      className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md border border-gray-100 hover:border-gray-200 transition-all duration-300 cursor-pointer group relative"
       onClick={onPress}
     >
       {/* Bookmark indicator */}
       {item.isBookmarked && (
         <div className="absolute top-2 right-2 z-10">
-          <Bookmark size={14} className="text-yellow-500 fill-current" />
+          <div className="bg-yellow-100 rounded-full p-1">
+            <Bookmark size={12} className="text-yellow-600 fill-current" />
+          </div>
         </div>
       )}
 
@@ -99,17 +101,17 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
           <img
             src={item.coverUrl}
             alt={item.title}
-            className="w-12 h-16 sm:w-16 sm:h-20 object-cover rounded-lg bg-gray-50 flex-shrink-0"
+            className="w-12 h-16 sm:w-16 sm:h-20 object-cover rounded-lg bg-gray-100 border border-gray-200 flex-shrink-0"
           />
         ) : (
-          <div className="w-12 h-16 sm:w-16 sm:h-20 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-16 sm:w-16 sm:h-20 bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
             {getTypeIcon()}
           </div>
         )}
         
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-2 mb-1">
-            <h3 className="font-semibold text-black text-sm sm:text-base line-clamp-2 flex-1 leading-5 sm:leading-6">
+            <h3 className="font-semibold text-gray-900 text-sm sm:text-base line-clamp-2 flex-1 leading-5 sm:leading-6">
               {item.title}
             </h3>
             <div className="flex-shrink-0 mt-0.5 hidden sm:block">
@@ -117,13 +119,13 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
             </div>
           </div>
           
-          <p className="text-gray-400 text-xs sm:text-sm mb-2 truncate">
+          <p className="text-gray-500 text-xs sm:text-sm mb-2 truncate">
             {getCreatorLabel()}
           </p>
           
           <div className="flex items-center gap-2 mb-2">
             {getStatusIcon()}
-            <span className="text-gray-400 text-xs sm:text-sm">
+            <span className="text-gray-600 text-xs sm:text-sm">
               {getStatusText()}
             </span>
           </div>
@@ -131,7 +133,7 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
           {progress && (
             <div className="w-full bg-gray-200 rounded-full h-1 sm:h-1.5">
               <motion.div
-                className="bg-black h-1 sm:h-1.5 rounded-full"
+                className="bg-gray-900 h-1 sm:h-1.5 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
@@ -149,8 +151,10 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
               e.stopPropagation()
               onBookmarkPress?.()
             }}
-            className={`p-2 rounded-lg hover:bg-gray-50 transition-colors ${
-              item.isBookmarked ? 'text-yellow-500' : 'text-gray-400'
+            className={`p-2 rounded-lg border transition-all duration-200 ${
+              item.isBookmarked 
+                ? 'text-yellow-600 bg-yellow-50 border-yellow-200 hover:bg-yellow-100' 
+                : 'text-gray-500 bg-white border-gray-200 hover:bg-gray-50 hover:text-gray-700'
             }`}
           >
             <Bookmark size={16} className={item.isBookmarked ? 'fill-current' : ''} />
@@ -163,9 +167,9 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
               e.stopPropagation()
               onMorePress?.()
             }}
-            className="p-2 rounded-lg hover:bg-gray-50 transition-colors"
+            className="p-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-500 hover:text-gray-700 transition-all duration-200"
           >
-            <MoreHorizontal size={16} className="text-gray-400" />
+            <MoreHorizontal size={16} />
           </motion.button>
         </div>
 
@@ -178,9 +182,9 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
               e.stopPropagation()
               onMorePress?.()
             }}
-            className="p-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+            className="p-1.5 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700 transition-all duration-200"
           >
-            <MoreHorizontal size={16} className="text-gray-400" />
+            <MoreHorizontal size={16} />
           </motion.button>
         </div>
       </div>

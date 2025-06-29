@@ -10,9 +10,16 @@ export default {
         'inter': ['Inter', 'sans-serif'],
       },
       colors: {
-        'gray-50': '#F5F5F5',
-        'gray-200': '#E0E0E0',
-        'gray-400': '#9E9E9E',
+        'gray-50': '#F9FAFB',
+        'gray-100': '#F3F4F6',
+        'gray-200': '#E5E7EB',
+        'gray-300': '#D1D5DB',
+        'gray-400': '#9CA3AF',
+        'gray-500': '#6B7280',
+        'gray-600': '#4B5563',
+        'gray-700': '#374151',
+        'gray-800': '#1F2937',
+        'gray-900': '#111827',
       },
       screens: {
         'xs': '475px',
@@ -46,6 +53,12 @@ export default {
       maxWidth: {
         '8xl': '88rem',
         '9xl': '96rem',
+      },
+      boxShadow: {
+        'button': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        'button-hover': '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        'card-hover': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
     },
   },

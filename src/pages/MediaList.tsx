@@ -42,18 +42,18 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black truncate pr-4">{item.title}</h2>
+                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">{item.title}</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-gray-50 transition-colors flex-shrink-0"
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0 border border-gray-200"
                 >
-                  <X size={16} className="text-gray-400" />
+                  <X size={16} className="text-gray-500" />
                 </motion.button>
               </div>
             </div>
@@ -66,14 +66,14 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onBookmark(item.id)
                   onClose()
                 }}
-                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-colors ${
+                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 border ${
                   item.isBookmarked 
-                    ? 'bg-yellow-50 hover:bg-yellow-100' 
-                    : 'bg-gray-50 hover:bg-gray-100'
+                    ? 'bg-yellow-50 hover:bg-yellow-100 border-yellow-200 text-yellow-700' 
+                    : 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700'
                 }`}
               >
-                <Bookmark size={16} className={item.isBookmarked ? 'text-yellow-600 fill-current' : 'text-black'} />
-                <span className="text-sm font-medium text-black">
+                <Bookmark size={16} className={item.isBookmarked ? 'text-yellow-600 fill-current' : 'text-gray-600'} />
+                <span className="text-sm font-medium">
                   {item.isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
                 </span>
               </motion.button>
@@ -85,10 +85,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onShare(item)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
               >
-                <Share2 size={16} className="text-black" />
-                <span className="text-sm font-medium text-black">Share</span>
+                <Share2 size={16} className="text-gray-600" />
+                <span className="text-sm font-medium">Share</span>
               </motion.button>
 
               <motion.button
@@ -98,10 +98,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                   onEdit(item)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200"
               >
-                <Edit size={16} className="text-black" />
-                <span className="text-sm font-medium text-black">Edit Details</span>
+                <Edit size={16} className="text-gray-600" />
+                <span className="text-sm font-medium">Edit Details</span>
               </motion.button>
 
               <motion.button
@@ -113,10 +113,10 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark,
                     onClose()
                   }
                 }}
-                className="w-full flex items-center gap-3 p-3 rounded-xl bg-red-50 hover:bg-red-100 transition-colors"
+                className="w-full flex items-center gap-3 p-3 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 hover:text-red-800 transition-all duration-200"
               >
                 <Trash2 size={16} className="text-red-600" />
-                <span className="text-sm font-medium text-red-600">Delete</span>
+                <span className="text-sm font-medium">Delete</span>
               </motion.button>
             </div>
           </motion.div>
@@ -195,18 +195,18 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black truncate pr-4">Share "{item.title}"</h2>
+                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">Share "{item.title}"</h2>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={onClose}
-                  className="p-2 rounded-full hover:bg-gray-50 transition-colors flex-shrink-0"
+                  className="p-2 rounded-full hover:bg-gray-100 transition-colors flex-shrink-0 border border-gray-200"
                 >
-                  <X size={16} className="text-gray-400" />
+                  <X size={16} className="text-gray-500" />
                 </motion.button>
               </div>
             </div>
@@ -214,12 +214,12 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
             <div className="p-4 space-y-4">
               {existingShareLink || shareLink ? (
                 <>
-                  <div className="bg-gray-50 rounded-xl p-4">
+                  <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                     <div className="flex items-center gap-2 mb-2">
-                      <Link size={16} className="text-black" />
-                      <span className="text-sm font-medium text-black">Share Link</span>
+                      <Link size={16} className="text-gray-700" />
+                      <span className="text-sm font-medium text-gray-900">Share Link</span>
                     </div>
-                    <div className="flex items-center gap-2 p-2 bg-white rounded-lg border">
+                    <div className="flex items-center gap-2 p-2 bg-white rounded-lg border border-gray-200">
                       <input
                         type="text"
                         value={existingShareLink || shareLink || ''}
@@ -230,12 +230,12 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleCopyLink}
-                        className="p-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors flex-shrink-0"
+                        className="p-2 rounded-lg bg-gray-900 text-white hover:bg-gray-800 transition-colors border border-gray-900"
                       >
                         {copied ? <Check size={14} /> : <Copy size={14} />}
                       </motion.button>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">
+                    <p className="text-xs text-gray-500 mt-2">
                       Anyone with this link can view this item
                     </p>
                   </div>
@@ -244,7 +244,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleStopSharing}
-                    className="w-full py-3 px-4 bg-red-50 text-red-600 text-sm font-medium rounded-xl hover:bg-red-100 transition-colors"
+                    className="w-full py-3 px-4 bg-red-50 text-red-700 border border-red-200 text-sm font-medium rounded-xl hover:bg-red-100 hover:border-red-300 transition-all duration-200"
                   >
                     Stop Sharing
                   </motion.button>
@@ -253,8 +253,8 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                 <>
                   <div className="text-center py-4">
                     <Share2 size={32} className="text-gray-400 mx-auto mb-3" />
-                    <h3 className="text-lg font-semibold text-black mb-2">Share this item</h3>
-                    <p className="text-sm text-gray-400 mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Share this item</h3>
+                    <p className="text-sm text-gray-600 mb-4">
                       Generate a public link that anyone can use to view this item
                     </p>
                   </div>
@@ -264,7 +264,7 @@ function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: Sh
                     whileTap={{ scale: 0.98 }}
                     onClick={handleGenerateLink}
                     disabled={loading}
-                    className="w-full py-3 px-4 bg-black text-white text-sm font-medium rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 px-4 bg-gray-900 text-white border border-gray-900 text-sm font-medium rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? 'Generating Link...' : 'Generate Share Link'}
                   </motion.button>
@@ -398,18 +398,18 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto mx-auto max-w-md border-t border-gray-200"
           >
             <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black truncate pr-4">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
+                <h2 className="text-lg font-semibold text-gray-900 truncate pr-4">Edit {item.type === 'tv-show' ? 'TV Show' : item.type}</h2>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleSave}
                     disabled={!title.trim() || !creator.trim()}
-                    className="px-4 py-2 bg-black text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-gray-900 text-white border border-gray-900 text-sm font-medium rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Save
                   </motion.button>
@@ -417,9 +417,9 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={onClose}
-                    className="p-2 rounded-full hover:bg-gray-50 transition-colors"
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
                   >
-                    <X size={16} className="text-gray-400" />
+                    <X size={16} className="text-gray-500" />
                   </motion.button>
                 </div>
               </div>
@@ -428,31 +428,31 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
             <div className="p-4 space-y-4">
               {/* Title */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Title *</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Title *</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+                  className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   placeholder="Enter title"
                 />
               </div>
 
               {/* Creator */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">{getCreatorLabel()} *</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">{getCreatorLabel()} *</label>
                 <input
                   type="text"
                   value={creator}
                   onChange={(e) => setCreator(e.target.value)}
-                  className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+                  className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                   placeholder={`Enter ${getCreatorLabel().toLowerCase()}`}
                 />
               </div>
 
               {/* Status */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Status</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   {getStatusOptions().map(({ value, label }) => (
                     <motion.button
@@ -460,10 +460,10 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setStatus(value as MediaStatus)}
-                      className={`p-3 rounded-xl text-xs font-medium transition-colors ${
+                      className={`p-3 rounded-xl text-xs font-medium transition-all duration-200 border ${
                         status === value
-                          ? 'bg-black text-white'
-                          : 'bg-gray-50 text-black hover:bg-gray-100'
+                          ? 'bg-gray-900 text-white border-gray-900'
+                          : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100 hover:border-gray-300'
                       }`}
                     >
                       {label}
@@ -475,14 +475,14 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
               {/* Progress for books */}
               {item.type === 'book' && status === 'reading' && (
                 <div>
-                  <label className="block text-sm font-semibold text-black mb-2">Progress (%)</label>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">Progress (%)</label>
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={progress}
                     onChange={(e) => setProgress(e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                     placeholder="Enter progress percentage"
                   />
                 </div>
@@ -492,24 +492,24 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
               {item.type === 'tv-show' && status === 'watching' && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-sm font-semibold text-black mb-2">Current Season</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Current Season</label>
                     <input
                       type="number"
                       min="1"
                       value={currentSeason}
                       onChange={(e) => setCurrentSeason(e.target.value)}
-                      className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+                      className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                       placeholder="Season"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-black mb-2">Current Episode</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Current Episode</label>
                     <input
                       type="number"
                       min="1"
                       value={currentEpisode}
                       onChange={(e) => setCurrentEpisode(e.target.value)}
-                      className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
+                      className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
                       placeholder="Episode"
                     />
                   </div>
@@ -518,7 +518,7 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
 
               {/* Rating */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Rating</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Rating</label>
                 <div className="flex gap-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <motion.button
@@ -531,7 +531,7 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
                     >
                       <Star
                         size={20}
-                        className={star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}
+                        className={star <= rating ? 'text-yellow-500 fill-current' : 'text-gray-300'}
                       />
                     </motion.button>
                   ))}
@@ -540,12 +540,12 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
 
               {/* Notes */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Notes</label>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Notes</label>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-3 bg-gray-50 border border-transparent rounded-xl text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none"
+                  className="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all resize-none"
                   placeholder="Add your thoughts..."
                 />
               </div>
@@ -696,8 +696,8 @@ export default function MediaList() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
         <div className="text-center max-w-md">
-          <h2 className="text-lg font-semibold text-black mb-2">Something went wrong</h2>
-          <p className="text-sm text-gray-400">{error}</p>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">Something went wrong</h2>
+          <p className="text-sm text-gray-600">{error}</p>
         </div>
       </div>
     )
@@ -733,8 +733,10 @@ export default function MediaList() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsSearchOpen(true)}
-        className={`p-2 rounded-full transition-colors ${
-          searchQuery ? 'bg-black text-white' : 'bg-white/80 hover:bg-white text-black'
+        className={`p-2 rounded-full border transition-all duration-200 ${
+          searchQuery 
+            ? 'bg-gray-900 text-white border-gray-900' 
+            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300'
         }`}
       >
         <Search size={18} className="sm:w-5 sm:h-5" />
@@ -743,10 +745,10 @@ export default function MediaList() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsFilterOpen(true)}
-        className={`p-2 rounded-full transition-colors ${
+        className={`p-2 rounded-full border transition-all duration-200 ${
           selectedFilter !== 'all' || sortBy !== 'dateAdded' || sortOrder !== 'desc' 
-            ? 'bg-black text-white' 
-            : 'bg-white/80 hover:bg-white text-black'
+            ? 'bg-gray-900 text-white border-gray-900' 
+            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300'
         }`}
       >
         <Filter size={18} className="sm:w-5 sm:h-5" />
@@ -781,14 +783,14 @@ export default function MediaList() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4"
         >
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>Searching for:</span>
-            <span className="font-medium text-black">"{searchQuery}"</span>
+            <span className="font-medium text-gray-900">"{searchQuery}"</span>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSearchQuery('')}
-              className="text-black hover:text-gray-600 underline"
+              className="text-gray-700 hover:text-gray-900 underline"
             >
               Clear
             </motion.button>
@@ -806,10 +808,10 @@ export default function MediaList() {
               exit={{ opacity: 0, y: -20 }}
               className="text-center py-16 px-4"
             >
-              <h3 className="text-xl font-bold text-black mb-2">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
                 No {selectedType === 'book' ? 'books' : selectedType === 'movie' ? 'movies' : 'TV shows'} found
               </h3>
-              <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              <p className="text-gray-600 mb-8 max-w-md mx-auto">
                 {getEmptyStateText()}
               </p>
               {searchQuery && (
@@ -817,7 +819,7 @@ export default function MediaList() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSearchQuery('')}
-                  className="px-4 py-2 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition-colors"
+                  className="px-4 py-2 bg-gray-900 text-white rounded-full font-medium hover:bg-gray-800 transition-colors border border-gray-900"
                 >
                   Clear Search
                 </motion.button>
