@@ -12,6 +12,8 @@ export interface Book {
   rating?: number;
   notes?: string;
   type: 'book';
+  genre?: string;
+  releaseYear?: number;
   isBookmarked?: boolean;
   isPublic?: boolean;
   shareToken?: string;
