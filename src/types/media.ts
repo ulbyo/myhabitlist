@@ -12,6 +12,9 @@ export interface Book {
   rating?: number;
   notes?: string;
   type: 'book';
+  isBookmarked?: boolean;
+  isPublic?: boolean;
+  shareToken?: string;
 }
 
 export interface Movie {
@@ -29,6 +32,9 @@ export interface Movie {
   type: 'movie';
   genre?: string;
   releaseYear?: number;
+  isBookmarked?: boolean;
+  isPublic?: boolean;
+  shareToken?: string;
 }
 
 export interface TVShow {
@@ -49,6 +55,9 @@ export interface TVShow {
   type: 'tv-show';
   genre?: string;
   releaseYear?: number;
+  isBookmarked?: boolean;
+  isPublic?: boolean;
+  shareToken?: string;
 }
 
 export type MediaItem = Book | Movie | TVShow;

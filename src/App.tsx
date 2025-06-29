@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import MediaList from './pages/MediaList'
 import AddMedia from './pages/AddMedia'
 import Statistics from './pages/Statistics'
+import SharedItem from './pages/SharedItem'
 import Auth from './pages/Auth'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/auth" element={<Auth />} />
+        <Route path="/shared/:shareToken" element={<SharedItem />} />
         <Route path="/" element={
           <ProtectedRoute>
             <Layout />

@@ -2,14 +2,17 @@ import { motion } from 'framer-motion'
 import { MediaStatus, MediaType } from '../types/media'
 
 interface MediaFilterTabsProps {
-  selectedFilter: MediaStatus | 'all'
-  onFilterChange: (filter: MediaStatus | 'all') => void
+  selectedFilter: MediaStatus | 'all' | 'bookmarked'
+  onFilterChange: (filter: MediaStatus | 'all' | 'bookmarked') => void
   mediaType: MediaType
 }
 
 export default function MediaFilterTabs({ selectedFilter, onFilterChange, mediaType }: MediaFilterTabsProps) {
   const getFilters = () => {
-    const baseFilters = [{ key: 'all', label: 'All' }] as const
+    const baseFilters = [
+      { key: 'all', label: 'All' },
+      { key: 'bookmarked', label: 'Bookmarked' }
+    ] as const
     
     if (mediaType === 'book') {
       return [

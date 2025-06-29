@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Filter, Edit, Trash2, Star, X } from 'lucide-react'
+import { Search, Filter, Edit, Trash2, Star, X, Bookmark, Share2, Link, Copy, Check } from 'lucide-react'
 import Header from '../components/Header'
 import MediaCard from '../components/MediaCard'
 import MediaFilterTabs from '../components/MediaFilterTabs'
@@ -20,9 +20,11 @@ interface MediaActionModalProps {
   item: MediaItem | null
   onEdit: (item: MediaItem) => void
   onDelete: (id: string) => void
+  onBookmark: (id: string) => void
+  onShare: (item: MediaItem) => void
 }
 
-function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete }: MediaActionModalProps) {
+function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete, onBookmark, onShare }: MediaActionModalProps) {
   if (!item) return null
 
   return (
@@ -61,6 +63,38 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete }: MediaActi
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
+                  onBookmark(item.id)
+                  onClose()
+                }}
+                className={`w-full flex items-center gap-3 p-3 rounded-xl transition-colors ${
+                  item.isBookmarked 
+                    ? 'bg-yellow-50 hover:bg-yellow-100' 
+                    : 'bg-gray-50 hover:bg-gray-100'
+                }`}
+              >
+                <Bookmark size={16} className={item.isBookmarked ? 'text-yellow-600 fill-current' : 'text-black'} />
+                <span className="text-sm font-medium text-black">
+                  {item.isBookmarked ? 'Remove Bookmark' : 'Add Bookmark'}
+                </span>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  onShare(item)
+                  onClose()
+                }}
+                className="w-full flex items-center gap-3 p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+              >
+                <Share2 size={16} className="text-black" />
+                <span className="text-sm font-medium text-black">Share</span>
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => {
                   onEdit(item)
                   onClose()
                 }}
@@ -84,6 +118,158 @@ function MediaActionModal({ isOpen, onClose, item, onEdit, onDelete }: MediaActi
                 <Trash2 size={16} className="text-red-600" />
                 <span className="text-sm font-medium text-red-600">Delete</span>
               </motion.button>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
+interface ShareModalProps {
+  isOpen: boolean
+  onClose: () => void
+  item: MediaItem | null
+  onGenerateLink: (id: string) => Promise<string | null>
+  onStopSharing: (id: string) => void
+}
+
+function ShareModal({ isOpen, onClose, item, onGenerateLink, onStopSharing }: ShareModalProps) {
+  const [shareLink, setShareLink] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const handleGenerateLink = async () => {
+    if (!item) return
+    
+    setLoading(true)
+    try {
+      const link = await onGenerateLink(item.id)
+      setShareLink(link)
+    } catch (error) {
+      console.error('Error generating share link:', error)
+      alert('Failed to generate share link. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCopyLink = async () => {
+    if (!shareLink) return
+    
+    try {
+      await navigator.clipboard.writeText(shareLink)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      console.error('Error copying to clipboard:', error)
+      alert('Failed to copy link to clipboard')
+    }
+  }
+
+  const handleStopSharing = () => {
+    if (!item) return
+    onStopSharing(item.id)
+    setShareLink(null)
+    onClose()
+  }
+
+  const existingShareLink = item?.isPublic && item?.shareToken 
+    ? `${window.location.origin}/shared/${item.shareToken}` 
+    : null
+
+  if (!item) return null
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50 max-h-[80vh] overflow-y-auto"
+          >
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-4 py-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-black">Share "{item.title}"</h2>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onClose}
+                  className="p-2 rounded-full hover:bg-gray-50 transition-colors"
+                >
+                  <X size={16} className="text-gray-400" />
+                </motion.button>
+              </div>
+            </div>
+
+            <div className="p-4 space-y-4">
+              {existingShareLink || shareLink ? (
+                <>
+                  <div className="bg-gray-50 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Link size={16} className="text-black" />
+                      <span className="text-sm font-medium text-black">Share Link</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2 bg-white rounded-lg border">
+                      <input
+                        type="text"
+                        value={existingShareLink || shareLink || ''}
+                        readOnly
+                        className="flex-1 text-xs text-gray-600 bg-transparent border-none outline-none"
+                      />
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleCopyLink}
+                        className="p-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors"
+                      >
+                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                      </motion.button>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-2">
+                      Anyone with this link can view this item
+                    </p>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleStopSharing}
+                    className="w-full py-3 px-4 bg-red-50 text-red-600 text-sm font-medium rounded-xl hover:bg-red-100 transition-colors"
+                  >
+                    Stop Sharing
+                  </motion.button>
+                </>
+              ) : (
+                <>
+                  <div className="text-center py-4">
+                    <Share2 size={32} className="text-gray-400 mx-auto mb-3" />
+                    <h3 className="text-lg font-semibold text-black mb-2">Share this item</h3>
+                    <p className="text-sm text-gray-400 mb-4">
+                      Generate a public link that anyone can use to view this item
+                    </p>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleGenerateLink}
+                    disabled={loading}
+                    className="w-full py-3 px-4 bg-black text-white text-sm font-medium rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? 'Generating Link...' : 'Generate Share Link'}
+                  </motion.button>
+                </>
+              )}
             </div>
           </motion.div>
         </>
@@ -373,9 +559,9 @@ function EditModal({ isOpen, onClose, item, onSave }: EditModalProps) {
 
 export default function MediaList() {
   const navigate = useNavigate()
-  const { mediaItems, loading, error, updateMediaItem, deleteMediaItem } = useMediaItems()
+  const { mediaItems, loading, error, updateMediaItem, deleteMediaItem, toggleBookmark, generateShareLink, stopSharing } = useMediaItems()
   const [selectedType, setSelectedType] = useState<MediaType>('book')
-  const [selectedFilter, setSelectedFilter] = useState<MediaStatus | 'all'>('all')
+  const [selectedFilter, setSelectedFilter] = useState<MediaStatus | 'all' | 'bookmarked'>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -384,12 +570,15 @@ export default function MediaList() {
   const [selectedItem, setSelectedItem] = useState<MediaItem | null>(null)
   const [isActionModalOpen, setIsActionModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   const filteredItems = useMemo(() => {
     let filtered = mediaItems.filter(item => item.type === selectedType)
 
     // Apply status filter
-    if (selectedFilter !== 'all') {
+    if (selectedFilter === 'bookmarked') {
+      filtered = filtered.filter(item => item.isBookmarked)
+    } else if (selectedFilter !== 'all') {
       filtered = filtered.filter(item => item.status === selectedFilter)
     }
 
@@ -462,9 +651,23 @@ export default function MediaList() {
     setIsActionModalOpen(true)
   }
 
+  const handleBookmarkPress = async (item: MediaItem) => {
+    try {
+      await toggleBookmark(item.id)
+    } catch (error) {
+      console.error('Error toggling bookmark:', error)
+      alert('Failed to toggle bookmark. Please try again.')
+    }
+  }
+
   const handleEdit = (item: MediaItem) => {
     setSelectedItem(item)
     setIsEditModalOpen(true)
+  }
+
+  const handleShare = (item: MediaItem) => {
+    setSelectedItem(item)
+    setIsShareModalOpen(true)
   }
 
   const handleSave = async (id: string, updates: Partial<MediaItem>) => {
@@ -506,6 +709,10 @@ export default function MediaList() {
     
     if (searchQuery) {
       return `No ${typeLabel} found matching "${searchQuery}"`
+    }
+    
+    if (selectedFilter === 'bookmarked') {
+      return `No bookmarked ${typeLabel} yet`
     }
     
     if (selectedFilter === 'all') {
@@ -635,6 +842,7 @@ export default function MediaList() {
                     item={item}
                     onPress={() => handleItemPress(item)}
                     onMorePress={() => handleMorePress(item)}
+                    onBookmarkPress={() => handleBookmarkPress(item)}
                   />
                 </motion.div>
               ))}
@@ -670,6 +878,16 @@ export default function MediaList() {
         item={selectedItem}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onBookmark={toggleBookmark}
+        onShare={handleShare}
+      />
+
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        item={selectedItem}
+        onGenerateLink={generateShareLink}
+        onStopSharing={stopSharing}
       />
 
       <EditModal

@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion'
-import { Clock, CheckCircle, BookOpen, Play, Tv, MoreHorizontal } from 'lucide-react'
+import { Clock, CheckCircle, BookOpen, Play, Tv, MoreHorizontal, Bookmark } from 'lucide-react'
 import { MediaItem } from '../types/media'
 
 interface MediaCardProps {
   item: MediaItem
   onPress?: () => void
   onMorePress?: () => void
+  onBookmarkPress?: () => void
 }
 
-export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps) {
+export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress }: MediaCardProps) {
   const getStatusIcon = () => {
     switch (item.status) {
       case 'to-read':
@@ -31,10 +32,10 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
       case 'to-watch':
         return 'To Watch'
       case 'reading':
-        return item.progress ? `${item.progress}% complete` : 'Reading'
+        return (item as any).progress ? `${(item as any).progress}% complete` : 'Reading'
       case 'watching':
         if (item.type === 'tv-show') {
-          return `S${item.currentSeason || 1}E${item.currentEpisode || 1}`
+          return `S${(item as any).currentSeason || 1}E${(item as any).currentEpisode || 1}`
         }
         return 'Watching'
       case 'completed':
@@ -55,22 +56,22 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
 
   const getCreatorLabel = () => {
     if (item.type === 'book') {
-      return item.author
+      return (item as any).author
     } else if (item.type === 'movie') {
-      return item.director
+      return (item as any).director
     } else {
-      return item.creator
+      return (item as any).creator
     }
   }
 
   const getProgress = () => {
-    if (item.type === 'book' && item.status === 'reading' && item.progress) {
-      return item.progress
+    if (item.type === 'book' && item.status === 'reading' && (item as any).progress) {
+      return (item as any).progress
     }
-    if (item.type === 'tv-show' && item.status === 'watching' && item.currentEpisode && item.totalEpisodes) {
-      const currentSeason = item.currentSeason || 1
-      const totalSeasons = item.totalSeasons || 1
-      return Math.round(((currentSeason - 1) * (item.totalEpisodes / totalSeasons) + item.currentEpisode) / item.totalEpisodes * 100)
+    if (item.type === 'tv-show' && item.status === 'watching' && (item as any).currentEpisode && (item as any).totalEpisodes) {
+      const currentSeason = (item as any).currentSeason || 1
+      const totalSeasons = (item as any).totalSeasons || 1
+      return Math.round(((currentSeason - 1) * ((item as any).totalEpisodes / totalSeasons) + (item as any).currentEpisode) / (item as any).totalEpisodes * 100)
     }
     return null
   }
@@ -83,9 +84,16 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -2, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.98 }}
-      className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group"
+      className="bg-white rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group relative"
       onClick={onPress}
     >
+      {/* Bookmark indicator */}
+      {item.isBookmarked && (
+        <div className="absolute top-2 right-2 z-10">
+          <Bookmark size={16} className="text-yellow-500 fill-current" />
+        </div>
+      )}
+
       <div className="flex gap-4">
         {item.coverUrl ? (
           <img
@@ -132,17 +140,33 @@ export default function MediaCard({ item, onPress, onMorePress }: MediaCardProps
           )}
         </div>
 
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={(e) => {
-            e.stopPropagation()
-            onMorePress?.()
-          }}
-          className="p-2 rounded-lg hover:bg-gray-50 transition-colors opacity-0 group-hover:opacity-100"
-        >
-          <MoreHorizontal size={16} className="text-gray-400" />
-        </motion.button>
+        <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation()
+              onBookmarkPress?.()
+            }}
+            className={`p-2 rounded-lg hover:bg-gray-50 transition-colors ${
+              item.isBookmarked ? 'text-yellow-500' : 'text-gray-400'
+            }`}
+          >
+            <Bookmark size={16} className={item.isBookmarked ? 'fill-current' : ''} />
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={(e) => {
+              e.stopPropagation()
+              onMorePress?.()
+            }}
+            className="p-2 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <MoreHorizontal size={16} className="text-gray-400" />
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   )

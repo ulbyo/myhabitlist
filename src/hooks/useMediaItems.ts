@@ -45,6 +45,9 @@ export function useMediaItems() {
         dateAdded: new Date(item.date_added),
         dateStarted: item.date_started ? new Date(item.date_started) : undefined,
         dateCompleted: item.date_completed ? new Date(item.date_completed) : undefined,
+        isBookmarked: item.is_bookmarked || false,
+        isPublic: item.is_public || false,
+        shareToken: item.share_token,
       }))
 
       setMediaItems(transformedData)
@@ -69,6 +72,8 @@ export function useMediaItems() {
         date_added: new Date().toISOString(),
         date_started: item.dateStarted?.toISOString(),
         date_completed: item.dateCompleted?.toISOString(),
+        is_bookmarked: false,
+        is_public: false,
       }
 
       // Set creator based on type
@@ -125,6 +130,8 @@ export function useMediaItems() {
         date_started: updates.dateStarted?.toISOString(),
         date_completed: updates.dateCompleted?.toISOString(),
         updated_at: new Date().toISOString(),
+        is_bookmarked: updates.isBookmarked,
+        is_public: updates.isPublic,
       }
 
       // Only include title if provided in updates
@@ -169,6 +176,92 @@ export function useMediaItems() {
     }
   }
 
+  const toggleBookmark = async (id: string) => {
+    if (!user) return
+
+    try {
+      const currentItem = mediaItems.find(item => item.id === id)
+      if (!currentItem) throw new Error('Item not found')
+
+      const { error } = await supabase
+        .from('media_items')
+        .update({ 
+          is_bookmarked: !currentItem.isBookmarked,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      await fetchMediaItems()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to toggle bookmark')
+      throw err
+    }
+  }
+
+  const generateShareLink = async (id: string) => {
+    if (!user) return null
+
+    try {
+      const currentItem = mediaItems.find(item => item.id === id)
+      if (!currentItem) throw new Error('Item not found')
+
+      // Generate share token if it doesn't exist
+      let shareToken = currentItem.shareToken
+      if (!shareToken) {
+        const { data: tokenData, error: tokenError } = await supabase
+          .rpc('generate_share_token')
+
+        if (tokenError) throw tokenError
+        shareToken = tokenData
+      }
+
+      // Update item to be public and set share token
+      const { error } = await supabase
+        .from('media_items')
+        .update({ 
+          is_public: true,
+          share_token: shareToken,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      
+      await fetchMediaItems()
+      
+      // Return the share URL
+      const baseUrl = window.location.origin
+      return `${baseUrl}/shared/${shareToken}`
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to generate share link')
+      throw err
+    }
+  }
+
+  const stopSharing = async (id: string) => {
+    if (!user) return
+
+    try {
+      const { error } = await supabase
+        .from('media_items')
+        .update({ 
+          is_public: false,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', id)
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      await fetchMediaItems()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to stop sharing')
+      throw err
+    }
+  }
+
   const deleteMediaItem = async (id: string) => {
     if (!user) return
 
@@ -198,6 +291,9 @@ export function useMediaItems() {
     addMediaItem,
     updateMediaItem,
     deleteMediaItem,
+    toggleBookmark,
+    generateShareLink,
+    stopSharing,
     refetch: fetchMediaItems,
   }
 }

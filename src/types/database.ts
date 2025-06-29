@@ -26,6 +26,9 @@ export interface Database {
           date_completed: string | null
           created_at: string
           updated_at: string
+          is_bookmarked: boolean | null
+          is_public: boolean | null
+          share_token: string | null
         }
         Insert: {
           id?: string
@@ -51,6 +54,9 @@ export interface Database {
           date_completed?: string | null
           created_at?: string
           updated_at?: string
+          is_bookmarked?: boolean | null
+          is_public?: boolean | null
+          share_token?: string | null
         }
         Update: {
           id?: string
@@ -76,6 +82,9 @@ export interface Database {
           date_completed?: string | null
           created_at?: string
           updated_at?: string
+          is_bookmarked?: boolean | null
+          is_public?: boolean | null
+          share_token?: string | null
         }
       }
     }
@@ -83,7 +92,10 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_share_token: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

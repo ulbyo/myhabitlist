@@ -5,8 +5,8 @@ import { MediaStatus, MediaType } from '../types/media'
 interface FilterModalProps {
   isOpen: boolean
   onClose: () => void
-  selectedFilter: MediaStatus | 'all'
-  onFilterChange: (filter: MediaStatus | 'all') => void
+  selectedFilter: MediaStatus | 'all' | 'bookmarked'
+  onFilterChange: (filter: MediaStatus | 'all' | 'bookmarked') => void
   mediaType: MediaType
   sortBy: 'dateAdded' | 'title' | 'progress'
   onSortChange: (sort: 'dateAdded' | 'title' | 'progress') => void
@@ -26,7 +26,10 @@ export default function FilterModal({
   onSortOrderChange
 }: FilterModalProps) {
   const getFilters = () => {
-    const baseFilters = [{ key: 'all', label: 'All' }] as const
+    const baseFilters = [
+      { key: 'all', label: 'All' },
+      { key: 'bookmarked', label: 'Bookmarked' }
+    ] as const
     
     if (mediaType === 'book') {
       return [
