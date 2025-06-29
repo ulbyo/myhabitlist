@@ -33,9 +33,9 @@ export default function UserMenu() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 hover:text-gray-900 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="p-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-700 hover:text-gray-900 transition-all duration-200 shadow-sm hover:shadow-md flex-shrink-0"
       >
-        <User size={20} />
+        <User size={18} />
       </motion.button>
 
       <AnimatePresence>
@@ -70,8 +70,8 @@ export default function UserMenu() {
                   onClick={handleSettings}
                   className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 rounded-lg transition-colors"
                 >
-                  <Settings size={16} />
-                  Settings
+                  <Settings size={16} className="flex-shrink-0" />
+                  <span className="truncate">Settings</span>
                 </motion.button>
                 
                 <motion.button
@@ -80,8 +80,8 @@ export default function UserMenu() {
                   onClick={handleHelp}
                   className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 rounded-lg transition-colors"
                 >
-                  <HelpCircle size={16} />
-                  Help & Support
+                  <HelpCircle size={16} className="flex-shrink-0" />
+                  <span className="truncate">Help & Support</span>
                 </motion.button>
                 
                 <motion.button
@@ -90,8 +90,8 @@ export default function UserMenu() {
                   onClick={handleSignOut}
                   className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:text-red-700 rounded-lg transition-colors"
                 >
-                  <LogOut size={16} />
-                  Sign Out
+                  <LogOut size={16} className="flex-shrink-0" />
+                  <span className="truncate">Sign Out</span>
                 </motion.button>
               </div>
             </motion.div>

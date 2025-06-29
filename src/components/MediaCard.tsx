@@ -87,11 +87,11 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
       className="bg-white rounded-2xl p-3 sm:p-4 shadow-sm hover:shadow-md border border-gray-100 hover:border-gray-200 transition-all duration-300 cursor-pointer group relative"
       onClick={onPress}
     >
-      {/* Bookmark indicator */}
+      {/* Bookmark indicator - positioned to avoid overlap */}
       {item.isBookmarked && (
-        <div className="absolute top-2 right-2 z-10">
-          <div className="bg-yellow-100 rounded-full p-1">
-            <Bookmark size={12} className="text-yellow-600 fill-current" />
+        <div className="absolute top-3 right-3 z-10">
+          <div className="bg-yellow-100 rounded-full p-1.5 border border-yellow-200">
+            <Bookmark size={10} className="text-yellow-600 fill-current" />
           </div>
         </div>
       )}
@@ -109,9 +109,9 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
           </div>
         )}
         
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start gap-2 mb-1">
-            <h3 className="font-semibold text-gray-900 text-sm sm:text-base line-clamp-2 flex-1 leading-5 sm:leading-6">
+        <div className="flex-1 min-w-0 pr-2 sm:pr-0">
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <h3 className="font-semibold text-gray-900 text-sm sm:text-base line-clamp-2 flex-1 leading-5 sm:leading-6 pr-2">
               {item.title}
             </h3>
             <div className="flex-shrink-0 mt-0.5 hidden sm:block">
@@ -119,19 +119,19 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
             </div>
           </div>
           
-          <p className="text-gray-500 text-xs sm:text-sm mb-2 truncate">
+          <p className="text-gray-500 text-xs sm:text-sm mb-2 truncate pr-2">
             {getCreatorLabel()}
           </p>
           
           <div className="flex items-center gap-2 mb-2">
             {getStatusIcon()}
-            <span className="text-gray-600 text-xs sm:text-sm">
+            <span className="text-gray-600 text-xs sm:text-sm truncate">
               {getStatusText()}
             </span>
           </div>
 
           {progress && (
-            <div className="w-full bg-gray-200 rounded-full h-1 sm:h-1.5">
+            <div className="w-full bg-gray-200 rounded-full h-1 sm:h-1.5 mr-2">
               <motion.div
                 className="bg-gray-900 h-1 sm:h-1.5 rounded-full"
                 initial={{ width: 0 }}
@@ -142,8 +142,8 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
           )}
         </div>
 
-        {/* Desktop action buttons */}
-        <div className="hidden sm:flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* Desktop action buttons - properly spaced */}
+        <div className="hidden sm:flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -157,7 +157,7 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
                 : 'text-gray-500 bg-white border-gray-200 hover:bg-gray-50 hover:text-gray-700'
             }`}
           >
-            <Bookmark size={16} className={item.isBookmarked ? 'fill-current' : ''} />
+            <Bookmark size={14} className={item.isBookmarked ? 'fill-current' : ''} />
           </motion.button>
 
           <motion.button
@@ -169,12 +169,12 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
             }}
             className="p-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300 text-gray-500 hover:text-gray-700 transition-all duration-200"
           >
-            <MoreHorizontal size={16} />
+            <MoreHorizontal size={14} />
           </motion.button>
         </div>
 
-        {/* Mobile action button */}
-        <div className="sm:hidden flex items-start">
+        {/* Mobile action button - positioned to avoid overlap */}
+        <div className="sm:hidden flex items-start flex-shrink-0 ml-2">
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -182,9 +182,9 @@ export default function MediaCard({ item, onPress, onMorePress, onBookmarkPress 
               e.stopPropagation()
               onMorePress?.()
             }}
-            className="p-1.5 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700 transition-all duration-200"
+            className="p-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 text-gray-500 hover:text-gray-700 transition-all duration-200"
           >
-            <MoreHorizontal size={16} />
+            <MoreHorizontal size={14} />
           </motion.button>
         </div>
       </div>

@@ -42,7 +42,7 @@ export default function MediaFilterTabs({ selectedFilter, onFilterChange, mediaT
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onFilterChange(key)}
-            className={`relative px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 border ${
+            className={`relative px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-300 flex-shrink-0 border min-w-0 ${
               selectedFilter === key
                 ? 'text-white bg-gray-900 border-gray-900 shadow-md'
                 : 'text-gray-600 bg-white border-gray-200 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300'

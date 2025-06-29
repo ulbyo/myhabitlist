@@ -20,7 +20,7 @@ export default function Navigation() {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex flex-col items-center py-2 px-3 sm:px-4 rounded-xl transition-all duration-300 min-w-0 ${
+                  `flex flex-col items-center py-2 px-3 sm:px-4 rounded-xl transition-all duration-300 min-w-0 flex-1 max-w-20 ${
                     isActive
                       ? 'text-black'
                       : 'text-gray-400 hover:text-gray-600'
@@ -32,9 +32,9 @@ export default function Navigation() {
                     <motion.div
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      className="relative"
+                      className="relative mb-1"
                     >
-                      <Icon size={20} strokeWidth={2} />
+                      <Icon size={20} strokeWidth={2} className="mx-auto" />
                       {isActive && (
                         <motion.div
                           layoutId="activeTabMobile"
@@ -44,7 +44,7 @@ export default function Navigation() {
                         />
                       )}
                     </motion.div>
-                    <span className="text-xs font-medium mt-1 truncate">{label}</span>
+                    <span className="text-xs font-medium truncate text-center w-full">{label}</span>
                   </>
                 )}
               </NavLink>
@@ -59,12 +59,12 @@ export default function Navigation() {
           {/* Logo/Brand */}
           <div className="p-6 border-b border-gray-200">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gray-900 rounded-xl flex items-center justify-center flex-shrink-0">
                 <Library size={20} className="text-white" />
               </div>
-              <div>
-                <h1 className="text-lg font-bold text-gray-900">My Library</h1>
-                <p className="text-sm text-gray-500">Track your media</p>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg font-bold text-gray-900 truncate">My Library</h1>
+                <p className="text-sm text-gray-500 truncate">Track your media</p>
               </div>
             </div>
           </div>
@@ -77,7 +77,7 @@ export default function Navigation() {
                   key={to}
                   to={to}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
+                    `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative ${
                       isActive
                         ? 'bg-gray-900 text-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -86,8 +86,8 @@ export default function Navigation() {
                 >
                   {({ isActive }) => (
                     <>
-                      <Icon size={20} strokeWidth={2} />
-                      <span className="font-medium">{label}</span>
+                      <Icon size={20} strokeWidth={2} className="flex-shrink-0" />
+                      <span className="font-medium truncate">{label}</span>
                       {isActive && (
                         <motion.div
                           layoutId="activeTabDesktop"

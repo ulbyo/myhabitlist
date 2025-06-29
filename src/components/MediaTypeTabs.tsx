@@ -23,15 +23,15 @@ export default function MediaTypeTabs({ selectedType, onTypeChange }: MediaTypeT
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => onTypeChange(key)}
-            className={`relative flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex-1 sm:flex-initial border ${
+            className={`relative flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 flex-1 sm:flex-initial border min-w-0 ${
               selectedType === key
                 ? 'text-white bg-gray-900 border-gray-900 shadow-md'
                 : 'text-gray-600 bg-white border-gray-200 hover:text-gray-900 hover:bg-gray-50 hover:border-gray-300'
             }`}
           >
-            <Icon size={12} strokeWidth={2.5} className="flex-shrink-0" />
+            <Icon size={14} strokeWidth={2.5} className="flex-shrink-0" />
             <span className="hidden xs:inline sm:inline truncate">{label}</span>
-            <span className="xs:hidden sm:hidden">
+            <span className="xs:hidden sm:hidden truncate">
               {key === 'tv-show' ? 'TV' : key === 'book' ? 'Books' : 'Movies'}
             </span>
           </motion.button>

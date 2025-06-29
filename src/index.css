@@ -80,6 +80,51 @@ textarea:focus-visible {
   overflow: hidden;
 }
 
+/* Icon spacing utilities */
+.icon-spacing {
+  margin-right: 0.5rem;
+}
+
+.icon-spacing-sm {
+  margin-right: 0.375rem;
+}
+
+.icon-spacing-lg {
+  margin-right: 0.75rem;
+}
+
+/* Prevent icon overlap */
+.icon-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.icon-container-sm {
+  gap: 0.375rem;
+}
+
+.icon-container-lg {
+  gap: 0.75rem;
+}
+
+/* Button icon spacing */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-icon-sm {
+  gap: 0.375rem;
+}
+
+.btn-icon-lg {
+  gap: 0.75rem;
+}
+
 /* Responsive breakpoints */
 @media (min-width: 475px) {
   .xs\:inline {
@@ -97,6 +142,11 @@ textarea:focus-visible {
     min-height: 44px;
     min-width: 44px;
   }
+  
+  /* Ensure icons don't overlap on touch devices */
+  .touch-icon-spacing {
+    margin: 0.25rem;
+  }
 }
 
 /* Improved tap targets */
@@ -104,6 +154,15 @@ textarea:focus-visible {
   .tap-target {
     min-height: 44px;
     min-width: 44px;
+    padding: 0.5rem;
+  }
+  
+  /* Mobile icon containers */
+  .mobile-icon-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
   }
 }
 
@@ -208,6 +267,11 @@ textarea:focus-visible {
   .desktop-spacing {
     padding: 2rem;
   }
+  
+  /* Desktop icon spacing */
+  .desktop-icon-spacing {
+    gap: 0.75rem;
+  }
 }
 
 /* Extra large screens */
@@ -266,4 +330,49 @@ textarea:focus-visible {
     background-color: #fff !important;
     border: 1px solid #000;
   }
+}
+
+/* Flexbox utilities for icon alignment */
+.flex-icon-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-icon-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.flex-icon-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Icon size consistency */
+.icon-xs {
+  width: 12px;
+  height: 12px;
+}
+
+.icon-sm {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-md {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-lg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-xl {
+  width: 20px;
+  height: 20px;
 }
